@@ -1,7 +1,4 @@
-```
 # Compiled files
-*.dpr
-*.pas
 *.compiled
 *.o
 *.obj
@@ -41,4 +38,3 @@ Thumbs.db
 .env
 .env.local
 *.env.*
-```
