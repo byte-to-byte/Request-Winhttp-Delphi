@@ -1,0 +1,44 @@
+```
+# Compiled files
+*.dpr
+*.pas
+*.compiled
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.a
+*.out
+
+# Build directories
+build/
+dist/
+output/
+
+# Dependencies
+*.lib
+*.a
+*.so
+
+# Logs and temp files
+*.log
+*.tmp
+*.temp
+*.bak
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+*.env.*
+```
