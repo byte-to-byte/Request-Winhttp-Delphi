@@ -1,58 +1,58 @@
 # Delphi WinHTTP Library
 
-Biblioteca HTTP completa para Delphi usando exclusivamente `WinHttp.WinHttpRequest.5.1`.
+Complete HTTP library for Delphi using exclusively `WinHttp.WinHttpRequest.5.1`.
 
-## Índice
+## Table of Contents
 
-- [Introdução](#introdução)
-- [Requisitos](#requisitos)
-- [Compatibilidade](#compatibilidade)
-- [Instalação](#instalação)
-- [Exemplos de Uso](#exemplos-de-uso)
-- [API Completa](#api-completa)
+- [Introduction](#introduction)
+- [Requirements](#requirements)
+- [Compatibility](#compatibility)
+- [Installation](#installation)
+- [Usage Examples](#usage-examples)
+- [Complete API](#complete-api)
 - [HTTPS/TLS](#httpstls)
-- [Segurança](#segurança)
-- [Limitações](#limitações-conhecidas)
+- [Security](#security)
+- [Known Limitations](#known-limitations)
 
 ---
 
-## Introdução
+## Introduction
 
-Biblioteca HTTP leve e confiável para Delphi Windows, utilizando exclusivamente o backend **WinHttp.WinHttpRequest.5.1**.
+Lightweight and reliable HTTP library for Delphi on Windows, using exclusively the **WinHttp.WinHttpRequest.5.1** backend.
 
-**Características:**
-- ✅ Unit única e portátil (`Request.WinHttp.pas`)
-- ✅ Compatível Delphi 7 até Delphi 13 Florence
-- ✅ Todos métodos HTTP (GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS, etc.)
-- ✅ HTTPS/TLS com validação de certificados
-- ✅ Autenticação Basic e Bearer Token
-- ✅ Upload/Download de arquivos
-- ✅ JSON e Form URL Encoded
-- ✅ Proxy configurável
-- ✅ Timeout personalizável
-- ✅ Exceções específicas por tipo de erro
+**Features:**
+- ✅ Single portable unit (`Request.WinHttp.pas`)
+- ✅ Compatible with Delphi 7 through Delphi 13 Florence
+- ✅ All HTTP methods (GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS, etc.)
+- ✅ HTTPS/TLS with certificate validation
+- ✅ Basic and Bearer Token authentication
+- ✅ File upload/download
+- ✅ JSON and Form URL Encoded support
+- ✅ Configurable proxy
+- ✅ Customizable timeout
+- ✅ Specific exceptions by error type
 
 ---
 
-## Requisitos
+## Requirements
 
-### Sistema
-- Windows 2000 ou superior
-- WinHTTP 5.1 (instalado por padrão no Windows XP SP2+)
+### System
+- Windows 2000 or later
+- WinHTTP 5.1 (installed by default on Windows XP SP2+)
 
-### Verificação
+### Verification
 ```delphi
 try
   CreateOleObject('WinHttp.WinHttpRequest.5.1');
-  // WinHTTP disponível
+  // WinHTTP available
 except
-  // WinHTTP NÃO disponível
+  // WinHTTP NOT available
 end;
 ```
 
 ---
 
-## Compatibilidade
+## Compatibility
 
 | Delphi | Status |
 |--------|--------|
@@ -66,24 +66,24 @@ end;
 
 ---
 
-## Instalação
+## Installation
 
-1. Copie `Request.WinHttp.pas` para seu projeto
-2. Adicione ao uses: `uses Request.WinHttp;`
-3. Compile e use!
+1. Copy `Request.WinHttp.pas` to your project
+2. Add to uses clause: `uses Request.WinHttp;`
+3. Compile and use!
 
 ---
 
-## Exemplos de Uso
+## Usage Examples
 
-### GET Simples
+### Simple GET
 ```delphi
 var
   Request: TWinHttpRequest;
 begin
   Request := TWinHttpRequest.Create;
   try
-    Writeln(Request.Get('https://api.exemplo.com/dados'));
+    Writeln(Request.Get('https://api.example.com/data'));
   finally
     Request.Free;
   end;
@@ -97,44 +97,44 @@ var
 begin
   Request := TWinHttpRequest.Create;
   try
-    Request.PostJson('https://api.exemplo.com/usuarios', '{"nome":"Joao"}');
+    Request.PostJson('https://api.example.com/users', '{"name":"John"}');
   finally
     Request.Free;
   end;
 end;
 ```
 
-### Com Headers e Auth
+### With Headers and Auth
 ```delphi
 var
   Request: TWinHttpRequest;
 begin
   Request := TWinHttpRequest.Create;
   try
-    Request.SetBearerToken('meu-token');
+    Request.SetBearerToken('my-token');
     Request.SetRequestHeader('Accept', 'application/json');
-    Request.Get('https://api.exemplo.com/protegido');
+    Request.Get('https://api.example.com/protected');
   finally
     Request.Free;
   end;
 end;
 ```
 
-### Download de Arquivo
+### File Download
 ```delphi
 var
   Request: TWinHttpRequest;
 begin
   Request := TWinHttpRequest.Create;
   try
-    Request.DownloadFile('https://exemplo.com/arquivo.zip', 'C:\arquivo.zip');
+    Request.DownloadFile('https://example.com/file.zip', 'C:\file.zip');
   finally
     Request.Free;
   end;
 end;
 ```
 
-### Tratamento de Erros
+### Error Handling
 ```delphi
 var
   Request: TWinHttpRequest;
@@ -142,14 +142,14 @@ begin
   Request := TWinHttpRequest.Create;
   try
     Request.RaiseForStatus := True;
-    Request.Get('https://api.exemplo.com/erro');
+    Request.Get('https://api.example.com/error');
   except
     on E: EWinHttpTimeoutException do
       Writeln('Timeout');
     on E: EWinHttpResponseException do
       Writeln('HTTP ', E.HttpStatus);
     on E: EWinHttpException do
-      Writeln('Erro: ', E.Message);
+      Writeln('Error: ', E.Message);
   end;
   Request.Free;
 end;
@@ -157,9 +157,9 @@ end;
 
 ---
 
-## API Completa
+## Complete API
 
-### Métodos Principais
+### Main Methods
 ```delphi
 function Get(const URL: string): string;
 function GetBytes(const URL: string): TBytes;
@@ -173,7 +173,7 @@ procedure DownloadFile(const URL: string; const FileName: string);
 procedure UploadFile(const URL: string; const FileName: string; const FieldName: string = 'file');
 ```
 
-### Configuração
+### Configuration
 ```delphi
 procedure SetRequestHeader(const Name: string; const Value: string);
 procedure SetBearerToken(const Token: string);
@@ -182,7 +182,7 @@ procedure SetTimeouts(ResolveTimeout, ConnectTimeout, SendTimeout, ReceiveTimeou
 procedure SetProxy(ProxyType: TProxyType; const ProxyServer: string = ''; const ProxyBypass: string = '');
 ```
 
-### Propriedades
+### Properties
 ```delphi
 property Status: Integer;
 property StatusText: string;
@@ -196,7 +196,7 @@ property IgnoreCertificateErrors: Boolean;
 property UserAgent: string;
 ```
 
-### Exceções
+### Exceptions
 ```delphi
 EWinHttpException
 EWinHttpTimeoutException
@@ -209,57 +209,57 @@ EWinHttpCertificateException
 
 ## HTTPS/TLS
 
-### Validação de Certificados
-Por padrão, certificados são validados automaticamente:
-- Certificado não expirado
-- Autoridade confiável
-- Hostname correto
-- Cadeia válida
+### Certificate Validation
+By default, certificates are automatically validated:
+- Certificate not expired
+- Trusted authority
+- Correct hostname
+- Valid chain
 
-### Ignorar Erros (INSEGURO!)
+### Ignore Errors (UNSAFE!)
 ```delphi
-Request.IgnoreCertificateErrors := True; // ⚠️ Apenas para desenvolvimento!
+Request.IgnoreCertificateErrors := True; // ⚠️ Development only!
 ```
 
 ---
 
-## Segurança
+## Security
 
-### Boas Práticas
-1. Nunca logue credenciais
-2. Mantenha validação de certificados em produção
-3. Use HTTPS sempre
-4. Capture exceções apropriadamente
+### Best Practices
+1. Never log credentials
+2. Keep certificate validation enabled in production
+3. Always use HTTPS
+4. Handle exceptions appropriately
 
-### Headers Protegidos
-A biblioteca nunca registra: Authorization, Cookie, senhas ou tokens.
+### Protected Headers
+The library never logs: Authorization, Cookie, passwords, or tokens.
 
 ---
 
-## Limitações Conhecidas
+## Known Limitations
 
 ### Cookies
-- ✅ Gerenciamento automático por domínio
-- ❌ Sem acesso direto via API
-- Workaround: `SetRequestHeader('Cookie', 'valor')`
+- ✅ Automatic management per domain
+- ❌ No direct API access
+- Workaround: `SetRequestHeader('Cookie', 'value')`
 
 ### Async
-- ⚠️ Modo async existe mas sem callbacks implementados
-- ✅ Use modo síncrono (default)
+- ⚠️ Async mode exists but callbacks not implemented
+- ✅ Use synchronous mode (default)
 
 ### ClearRequestHeaders
-- ❌ Não suportado pelo WinHTTP
-- Workaround: Crie nova instância
+- ❌ Not supported by WinHTTP
+- Workaround: Create new instance
 
 ### Thread Safety
-- ⚠️ Uma instância por thread!
-- Objeto COM não é thread-safe
+- ⚠️ One instance per thread!
+- COM object is not thread-safe
 
 ---
 
 ## License
 
-MIT License - Use livremente.
+MIT License - Free to use.
 
 ---
 
